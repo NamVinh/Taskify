@@ -1,6 +1,5 @@
 node_modules
-dist
-package-lock.json
+dist 
 
 
 
@@ -10,3 +9,5 @@ package-lock.json
 # Next.js
 .next
 out
+/src/backend/task/prisma/generated
+/src/backend/task/.env
