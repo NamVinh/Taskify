@@ -1,6 +1,6 @@
 import { Provider } from "@nestjs/common";
 import { CreateTaskHandler } from "./create/create-task.handler";
 
-export const withTaskProvider: Provider[] = [
+export const withTaskHandlerProvider: Provider[] = [
 	CreateTaskHandler
 ];
