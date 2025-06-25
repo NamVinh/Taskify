@@ -12,9 +12,32 @@ export class PrismaTaskRepository implements TaskRepository {
   }
 
   async create(task: Task): Promise<void> { 
-    await this.prisma.task.create({
-      data: this.toPersistence(task),
-    });
+ try {
+      await this.prisma.$transaction(async (tx) => {
+        const result = await this.prisma.task.create({
+          data: this.toPersistence(task),
+        });
+
+        throw Error("Herr");
+
+        // console.log("result", result);
+        // const existing = await tx.task.findFirst();
+
+        // console.log('hahahaaaaaaa', existing);
+        // if (!existing) {
+        //   throw new Error(`Task with ID ${task.id} not found`);
+        // }
+
+        // // Update đầu tiên
+        // await tx.task.update({
+        //   where: { id: existing.id },
+        //   data: { title: 'update' },
+        // });
+      });
+    } catch (err) {
+      console.error('Failed to update task:', err);
+      throw err;
+    }
   }
 
   async update(task: Task): Promise<void> {

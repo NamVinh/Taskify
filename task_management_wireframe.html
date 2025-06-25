@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management Wireframe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            height: calc(100vh - 140px);
+        }
+        
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 20px;
+            color: #667eea;
+            font-size: 18px;
+        }
+        
+        .group-list {
+            list-style: none;
+        }
+        
+        .group-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .group-item:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .group-item.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-left-color: white;
+        }
+        
+        .group-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .group-role {
+            font-size: 12px;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+        
+        .task-count {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .group-item.active .task-count {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .main-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .panel-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .add-task-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .add-task-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .task-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .status-column {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 400px;
+        }
+        
+        .status-header {
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+        }
+        
+        .status-open {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+        
+        .status-progress {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+        }
+        
+        .status-done {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+        
+        .task-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .task-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .task-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .task-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .task-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .task-assignee {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .assignee-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .task-date {
+            opacity: 0.8;
+        }
+        
+        .wireframe-notes {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .add-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 350px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .add-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with User Info -->
+        <div class="header">
+            <div class="logo">TaskFlow</div>
+            <div class="user-info">
+                <span>Welcome, john.doe@email.com</span>
+                <div class="avatar">JD</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Sidebar - Group Tasks -->
+            <div class="sidebar">
+                <h3>Group Tasks</h3>
+                <ul class="group-list">
+                    <li class="group-item active">
+                        <div class="group-name">Website Redesign</div>
+                        <div class="group-role">Admin</div>
+                        <div class="task-count">12</div>
+                    </li>
+                    <li class="group-item">
+                        <div class="group-name">Mobile App Development</div>
+                        <div class="group-role">Member</div>
+                        <div class="task-count">8</div>
+                    </li>
+                    <li class="group-item">
+                        <div class="group-name">Marketing Campaign</div>
+                        <div class="group-role">Admin</div>
+                        <div class="task-count">15</div>
+                    </li>
+                    <li class="group-item">
+                        <div class="group-name">Product Launch</div>
+                        <div class="group-role">Member</div>
+                        <div class="task-count">6</div>
+                    </li>
+                </ul>
+                
+                <button class="add-btn" title="Add New Group Task">+</button>
+            </div>
+            
+            <!-- Main Panel - Task Board -->
+            <div class="main-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Website Redesign</h2>
+                    <button class="add-task-btn">+ Add Task</button>
+                </div>
+                
+                <div class="task-board">
+                    <!-- Open Tasks -->
+                    <div class="status-column">
+                        <div class="status-header status-open">Open (4)</div>
+                        
+                        <div class="task-card">
+                            <div class="task-title">Design Homepage Mockup</div>
+                            <div class="task-description">Create initial wireframes and mockups for the new homepage layout</div>
+                            <div class="task-meta">
+                                <div class="task-assignee">
+                                    <div class="assignee-avatar">SM</div>
+                                    <span>Sarah M.</span>
+                                </div>
+                                <div class="task-date">Created: 2 days ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card">
+                            <div class="task-title">Content Strategy</div>
+                            <div class="task-description">Define content structure and messaging for all pages</div>
+                            <div class="task-meta">
+                                <div class="task-assignee">
+                                    <div class="assignee-avatar">MJ</div>
+                                    <span>Mike J.</span>
+                                </div>
+                                <div class="task-date">Created: 1 day ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- In Progress Tasks -->
+                    <div class="status-column">
+                        <div class="status-header status-progress">In Progress (5)</div>
+                        
+                        <div class="task-card">
+                            <div class="task-title">Frontend Development</div>
+                            <div class="task-description">Implement responsive design using React and CSS Grid</div>
+                            <div class="task-meta">
+                                <div class="task-assignee">
+                                    <div class="assignee-avatar">JD</div>
+                                    <span>John D.</span>
+                                </div>
+                                <div class="task-date">Updated: 3 hours ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card">
+                            <div class="task-title">API Integration</div>
+                            <div class="task-description">Connect frontend with backend services and database</div>
+                            <div class="task-meta">
+                                <div class="task-assignee">
+                                    <div class="assignee-avatar">AL</div>
+                                    <span>Anna L.</span>
+                                </div>
+                                <div class="task-date">Updated: 1 hour ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card">
+                            <div class="task-title">User Testing</div>
+                            <div class="task-description">Conduct usability tests with target audience</div>
+                            <div class="task-meta">
+                                <div class="task-assignee">
+                                    <div class="assignee-avatar">RK</div>
+                                    <span>Robert K.</span>
+                                </div>
+                                <div class="task-date">Updated: 2 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Done Tasks -->
+                    <div class="status-column">
+                        <div class="status-header status-done">Done (3)</div>
+                        
+                        <div class="task-card">
+                            <div class="task-title">Requirements Gathering</div>
+                            <div class="task-description">Collect and document all project requirements</div>
+                            <div class="task-meta">
+                                <div class="task-assignee">
+                                    <div class="assignee-avatar">TM</div>
+                                    <span>Tom M.</span>
+                                </div>
+                                <div class="task-date">Completed: 1 week ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card">
+                            <div class="task-title">Database Schema</div>
+                            <div class="task-description">Design and implement database structure</div>
+                            <div class="task-meta">
+                                <div class="task-assignee">
+                                    <div class="assignee-avatar">LS</div>
+                                    <span>Lisa S.</span>
+                                </div>
+                                <div class="task-date">Completed: 5 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="wireframe-notes">
+        <strong>Database Schema Mapping:</strong><br>
+        • User: Profile info & authentication<br>
+        • GroupTask: Project containers<br>
+        • Task: Individual work items<br>
+        • UserGroupTask: Role-based access<br>
+        <br>
+        <strong>Features:</strong><br>
+        • Kanban board view<br>
+        • Role-based permissions<br>
+        • Real-time updates<br>
+        • User assignments
+    </div>
+    
+    <script>
+        // Simulate interactive behavior
+        document.querySelectorAll('.group-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.group-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                const groupName = this.querySelector('.group-name').textContent;
+                document.querySelector('.panel-title').textContent = groupName;
+            });
+        });
+        
+        document.querySelectorAll('.task-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+        
+        document.querySelector('.add-task-btn').addEventListener('click', function() {
+            alert('Add Task modal would open here');
+        });
+        
+        document.querySelector('.add-btn').addEventListener('click', function() {
+            alert('Add Group Task modal would open here');
+        });
+    </script>
+</body>
+</html>
