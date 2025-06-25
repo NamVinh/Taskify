@@ -6,5 +6,5 @@ class Settings(BaseSettings):
     class Config:
         env_file=".env"
         
-settings = Settings()
-print(settings.mongodb_url)  
+app_options = Settings() 
+print(app_options)

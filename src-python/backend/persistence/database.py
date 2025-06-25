@@ -1,11 +1,11 @@
 import motor
-import motor.motor_asyncio
-from core import settings
+from motor.motor_asyncio import AsyncIOMotorClient
+from core.settings import app_options
+  
+MONGO_URL= app_options.mongodb_url
 
-MONGO_URL= settings.mongodb_url
-
-client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URL)
-
+client = AsyncIOMotorClient(MONGO_URL)
+ 
 database = client.get_database("tasks")
 
 user_collection = database.get_collection("users")
