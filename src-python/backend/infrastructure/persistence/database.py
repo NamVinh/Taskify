@@ -1,10 +1,10 @@
 import motor
-from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import AsyncMongoClient
 from core.settings import app_options
   
 MONGO_URL= app_options.mongodb_url
 
-client = AsyncIOMotorClient(MONGO_URL)
+client = AsyncMongoClient(MONGO_URL)
  
 database = client.get_database("tasks")
 
